@@ -20,17 +20,21 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/analyze-portfolio", formData, {
+      // Use the environment variable from Vercel, fallback to Render URL if missing
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://portfolio-xray.onrender.com";
+
+      const response = await axios.post(`${API_URL}/api/analyze-portfolio`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setReportData(response.data);
-    } catch (err) {
-      console.error("Upload error:", err);
-      setError("Failed to analyze portfolio. Ensure your Python backend is running.");
-    } finally {
-      setIsLoading(false);
+      
+        setReportData(response.data);
+      } catch (err) {
+        console.error("Upload error:", err);
+        setError("Failed to analyze portfolio. Ensure your Python backend is running.");
+      } finally {
+        setIsLoading(false);
+      }
     }
-  };
 
   return (
     <main className="min-h-screen bg-zinc-950 text-slate-50 flex flex-col items-center pt-16 px-6 pb-24">

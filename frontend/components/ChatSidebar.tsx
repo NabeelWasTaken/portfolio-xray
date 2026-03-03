@@ -42,20 +42,23 @@ export default function ChatSidebar({
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/chat", {
-        message: userMsg,
-        // We stringify the JSON so the Python backend receives it as raw context
-        portfolio_context: JSON.stringify(portfolioData)
-      });
+        // Use the environment variable from Vercel, fallback to Render URL if missing
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://portfolio-xray.onrender.com";
 
-      setMessages((prev) => [...prev, { role: "ai", content: response.data.reply }]);
-    } catch (error) {
-      console.error("Chat error:", error);
-      setMessages((prev) => [...prev, { role: "ai", content: "⚠️ Connection error. Make sure your Python backend is running." }]);
-    } finally {
-      setIsLoading(false);
+        const response = await axios.post(`${API_URL}/api/chat`, {
+          message: userMsg,
+          // We stringify the JSON so the Python backend receives it as raw context
+          portfolio_context: JSON.stringify(portfolioData)
+        });
+
+        setMessages((prev) => [...prev, { role: "ai", content: response.data.reply }]);
+      } catch (error) {
+        console.error("Chat error:", error);
+        setMessages((prev) => [...prev, { role: "ai", content: "⚠️ Connection error. Make sure your Python backend is running." }]);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  };
 
   return (
     <AnimatePresence>

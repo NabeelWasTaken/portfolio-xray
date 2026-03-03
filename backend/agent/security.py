@@ -1,11 +1,8 @@
 import re
 
 def scrub_pii(text: str) -> str:
-    """
-    Lightweight Regex PII Scrubber for 512MB Free Tier limits.
-    In a production enterprise environment, this module swaps seamlessly 
-    back to Microsoft Presidio/Spacy.
-    """
+    
+    
     if not text:
         return text
         

@@ -18,24 +18,27 @@ export default function Dashboard({ data, onReset }: { data: any, onReset: () =>
   ];
 
   // 2. Function to call your AI Email Agent
-  const handleDraftEmail = async () => {
-    setIsDrafting(true);
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/api/draft-email", {
-        // We pass "Nabeel's Client" as a placeholder, but in a real app this comes from the CRM
-        client_name: "Valued Client", 
-        legacy_fees: data.legacy_fees,
-        savings: data.legacy_fees - data.wealthsimple_fees,
-        overlap_summary: data.overlap_analysis
-      });
-      setEmailDraft(response.data.email_draft);
-    } catch (error) {
-      console.error("Failed to draft email", error);
-      setEmailDraft("Error generating draft. Check backend connection.");
-    } finally {
-      setIsDrafting(false);
-    }
-  };
+  const handleDraftEmail = async () => {  // <--- Ensure 'async' is here
+  setIsDrafting(true);
+  try {
+    // Use the environment variable from Vercel, fallback to Render URL if missing
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://portfolio-xray.onrender.com";
+
+    const response = await axios.post(`${API_URL}/api/draft-email`, {
+      // We pass "Valued Client" as a placeholder, but in a real app this comes from the CRM
+      client_name: "Valued Client", 
+      legacy_fees: data.legacy_fees,
+      savings: data.legacy_fees - data.wealthsimple_fees,
+      overlap_summary: data.overlap_analysis
+    });
+    setEmailDraft(response.data.email_draft);
+  } catch (error) {
+    console.error("Failed to draft email", error);
+    setEmailDraft("Error generating draft. Check backend connection.");
+  } finally {
+    setIsDrafting(false);
+  }
+};
 
   const savings = data.legacy_fees - data.wealthsimple_fees;
 
