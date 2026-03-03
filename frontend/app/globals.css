@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* We will add our custom dark mode scrollbars and animations here later */
+body {
+  background-color: #09090b; /* zinc-950 */
+  color: #f8fafc; /* slate-50 */
+}
