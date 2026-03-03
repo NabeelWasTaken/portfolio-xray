@@ -20,7 +20,10 @@ app = FastAPI(title="Portfolio X-Ray API")
 # Allow the Next.js frontend to talk to this backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"], 
+    allow_origins=[
+        "http://localhost:3000", 
+        "https://portfolio-xray-your-unique-link.vercel.app" 
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
