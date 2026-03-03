@@ -22,7 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000", 
-        "https://portfolio-xray-your-unique-link.vercel.app" 
+        "https://portfolio-xray.vercel.app" 
     ],
     allow_credentials=True,
     allow_methods=["*"],
