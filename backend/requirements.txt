@@ -7,3 +7,4 @@ pydantic-ai
 google-generativeai
 presidio-analyzer
 presidio-anonymizer
+PyPDF2
